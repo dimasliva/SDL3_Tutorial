@@ -6,7 +6,9 @@
 
 static SDL_Window* window;
 static SDL_Renderer* renderer;
-int posX = 0;
+SDL_FRect rect = { 0, 0, 100, 100 };
+bool turnRect = false;
+bool turnRectY = false;
 
 SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[]) {
 	SDL_Init(SDL_INIT_VIDEO);
@@ -19,7 +21,7 @@ SDL_AppResult SDL_AppEvent(void* appstate, SDL_Event* event) {
 	case SDL_EVENT_QUIT:
 		return SDL_APP_SUCCESS;
 		break;
-
+	
 	default:
 		break;
 	}
@@ -28,20 +30,29 @@ SDL_AppResult SDL_AppEvent(void* appstate, SDL_Event* event) {
 SDL_AppResult SDL_AppIterate(void* appstate) {
 	SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
 	SDL_RenderClear(renderer);
-
-	SDL_SetRenderDrawColor(renderer, 30, 200, 30, 255);
-	posX++;
-	if (posX == 800 - 100) {
-		posX = 0;
+	if (rect.x >= 700 || rect.x <= 0) {
+		turnRect = !turnRect;
 	}
-	SDL_FRect rect;
-	rect.x = posX;
-	rect.y = 0;
-	rect.w = 100;
-	rect.h = 100;
+	if (turnRect == true) {
+		rect.x = rect.x + 5;
+	}
+	if (turnRect == false) {
+		rect.x = rect.x - 5;
+	}
+
+	if (rect.y >= 540 || rect.y <= 0) {
+		turnRectY = !turnRectY;
+	}
+	if (turnRectY == true) {
+		rect.y = rect.y + 5;
+	}
+	if (turnRectY == false) {
+		rect.y = rect.y - 5;
+	}
+	SDL_SetRenderDrawColor(renderer, 30, 200, 30, 255);
 	SDL_RenderFillRect(renderer, &rect);
-	SDL_Delay(16);
 	SDL_RenderPresent(renderer);
+	SDL_Delay(16);
 	return SDL_APP_CONTINUE;
 }
 
