@@ -7,8 +7,7 @@
 static SDL_Window* window;
 static SDL_Renderer* renderer;
 SDL_FRect rect = { 0, 0, 100, 100 };
-bool turnRect = false;
-bool turnRectY = false;
+int speed = 10;
 
 SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[]) {
 	SDL_Init(SDL_INIT_VIDEO);
@@ -30,24 +29,20 @@ SDL_AppResult SDL_AppEvent(void* appstate, SDL_Event* event) {
 SDL_AppResult SDL_AppIterate(void* appstate) {
 	SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
 	SDL_RenderClear(renderer);
-	if (rect.x >= 700 || rect.x <= 0) {
-		turnRect = !turnRect;
-	}
-	if (turnRect == true) {
-		rect.x = rect.x + 5;
-	}
-	if (turnRect == false) {
-		rect.x = rect.x - 5;
-	}
 
-	if (rect.y >= 540 || rect.y <= 0) {
-		turnRectY = !turnRectY;
+	const bool* keys = SDL_GetKeyboardState(NULL);
+
+	if (keys[SDL_SCANCODE_W]) {
+		rect.y -= speed;
 	}
-	if (turnRectY == true) {
-		rect.y = rect.y + 5;
+	if (keys[SDL_SCANCODE_S]) {
+		rect.y += speed;
 	}
-	if (turnRectY == false) {
-		rect.y = rect.y - 5;
+	if (keys[SDL_SCANCODE_A]) {
+		rect.x -= speed;
+	}
+	if (keys[SDL_SCANCODE_D]) {
+		rect.x += speed;
 	}
 	SDL_SetRenderDrawColor(renderer, 30, 200, 30, 255);
 	SDL_RenderFillRect(renderer, &rect);
