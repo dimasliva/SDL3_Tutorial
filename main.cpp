@@ -1,12 +1,14 @@
 #define SDL_MAIN_USE_CALLBACKS 1
 #include<SDL3/SDL.h>
 #include<SDL3/SDL_main.h>
+#include<SDL3_image/SDL_image.h>
 #include<iostream>
 #include<stdio.h>
 
 static SDL_Window* window;
 static SDL_Renderer* renderer;
-SDL_FRect rect = { 0, 0, 100, 100 };
+SDL_FRect rect = { 0, 0, 200, 100 };
+SDL_FRect srcrect = { 200, 200, 100, 100 };
 int speed = 10;
 
 SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[]) {
@@ -44,8 +46,12 @@ SDL_AppResult SDL_AppIterate(void* appstate) {
 	if (keys[SDL_SCANCODE_D]) {
 		rect.x += speed;
 	}
-	SDL_SetRenderDrawColor(renderer, 30, 200, 30, 255);
-	SDL_RenderFillRect(renderer, &rect);
+
+	SDL_Texture* playerTexture = IMG_LoadTexture(renderer, "assets/player.png");
+	SDL_GetTextureSize(playerTexture, &rect.w, &rect.h);
+	SDL_RenderTexture(renderer, playerTexture, &srcrect, &rect);
+	SDL_DestroyTexture(playerTexture);
+
 	SDL_RenderPresent(renderer);
 	SDL_Delay(16);
 	return SDL_APP_CONTINUE;
