@@ -17,7 +17,7 @@ Player* player = nullptr;
 SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[]) {
 	SDL_Init(SDL_INIT_VIDEO);
 	SDL_CreateWindowAndRenderer("SDL3 Game", 800, 640, 0, &window, &renderer);
-	player = new Player(renderer);
+	player = new Player(renderer, "assets/Tiny Swords (Update 010)/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png");
 	return SDL_APP_CONTINUE;
 }
 SDL_AppResult SDL_AppEvent(void* appstate, SDL_Event* event) {
