@@ -12,8 +12,19 @@ typedef struct
 
 typedef struct
 {
+	bool top;
+	bool down;
+	bool left;
+	bool right;
+} lookAt;
+
+typedef struct
+{
 	animation idle;
 	animation walk;
+	animation attack_horizontal;
+	animation attack_top;
+	animation attack_down;
 } animationData;
 
 class Player
@@ -21,7 +32,7 @@ class Player
 public:
 	Player(SDL_Renderer* renderer, std::string texturePath);
 	~Player();
-	void handleEvents();
+	void handleEvents(SDL_Event* event);
 	void update();
 	void draw();
 
@@ -38,5 +49,7 @@ private:
 	int lastUpdate;
 	float sizeSprite;
 	bool isWalk;
+	bool isAttack;
 	SDL_FlipMode flip;
+	lookAt lookAt;
 };

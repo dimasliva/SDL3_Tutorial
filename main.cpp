@@ -30,7 +30,7 @@ SDL_AppResult SDL_AppEvent(void* appstate, SDL_Event* event) {
 	default:
 		break;
 	}
-	player->handleEvents();
+	player->handleEvents(event);
 	return SDL_APP_CONTINUE;
 }
 SDL_AppResult SDL_AppIterate(void* appstate) {
