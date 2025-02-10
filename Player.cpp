@@ -134,7 +134,7 @@ void Player::initAnimations() {
 Player::Player(SDL_Renderer* renderer, std::string texturePath) : renderer(renderer)
 {
 	initAnimations();
-
+	lookAt.right = true;
 	sizeSprite = 192;
 	texture = IMG_LoadTexture(renderer, texturePath.c_str());
 	dest = { 0, 0, sizeSprite, sizeSprite };
