@@ -40,9 +40,24 @@ SDL_AppResult SDL_AppIterate(void* appstate) {
 	player->update();
 	player->draw();
 
+	SDL_Vertex vertex[4];
+	vertex[0].position = {100, 100};
+	vertex[0].color = { 1,0,0,1 };
 
-	
+	vertex[1].position = { 100, 600 };
+	vertex[1].color = { 0,1,0,1 };
 
+	vertex[2].position = { 600, 100 };
+	vertex[2].color = { 0,0,1,1 };
+
+	vertex[3].position = { 600, 600 };
+	vertex[3].color = { 0,0,1,1 };
+
+
+	int indices[6] = {0, 1, 2, 1, 3, 2};
+	int count = sizeof(vertex) / sizeof(vertex[0]);
+	int countIndices = sizeof(indices) / sizeof(indices[0]);
+	SDL_RenderGeometry(renderer, NULL, vertex, count, indices, countIndices);
 
 	SDL_RenderPresent(renderer);
 	SDL_Delay(16);
