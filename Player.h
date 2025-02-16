@@ -1,30 +1,21 @@
 #include<SDL3/SDL.h>
 #include<string>
+#include"Animation.h"
+#include"structs.h"
 #pragma once
 
 
-typedef struct
-{
-	int frames;
-	int animationDelay;
-	int y;
-} animation;
+
+
+
 
 typedef struct
 {
-	bool top;
-	bool down;
-	bool left;
-	bool right;
-} lookAt;
-
-typedef struct
-{
-	animation idle;
-	animation walk;
-	animation attack_horizontal;
-	animation attack_top;
-	animation attack_down;
+	animationProperties idle;
+	animationProperties walk;
+	animationProperties attack_horizontal;
+	animationProperties attack_top;
+	animationProperties attack_down;
 } animationData;
 
 class Player
@@ -37,16 +28,14 @@ public:
 	void draw();
 
 private:
+	Animation animationHandler;
 	void initAnimations();
-	void showAnimation(animation animation, int now, int delay);
 	SDL_Renderer* renderer;
 	SDL_FRect src;
 	SDL_FRect dest;
 	SDL_Texture* texture;
 	int speed;
 	animationData animations;
-	int currentIndex;
-	int lastUpdate;
 	float sizeSprite;
 	bool isWalk;
 	bool isAttack;

@@ -1,24 +1,15 @@
 #include "Player.h"
 #include <SDL3_image/SDL_image.h>
-#include<stdio.h>
+
 
 void Player::draw() {
 	SDL_RenderTextureRotated(renderer, texture, &src, &dest, 0, NULL, flip);
 }
-void Player::showAnimation(animation animation, int now, int delay) {
-	if (delay >= animation.animationDelay) {
-		lastUpdate = now;
-		currentIndex = (currentIndex + 1) % animation.frames;
 
-		src.x = currentIndex * sizeSprite;
-		src.y = sizeSprite * animation.y;
-	}
-}
 void Player::update() {
 	const bool* keys = SDL_GetKeyboardState(NULL);
 	isWalk = false;
-	Uint64 now = SDL_GetTicks();
-	int delay = now - lastUpdate;
+
 	if (keys[SDL_SCANCODE_W]) {
 		lookAt.top = true;
 		lookAt.down = false;
@@ -45,18 +36,18 @@ void Player::update() {
 	}
 	if (isAttack) {
 		if (lookAt.top) {
-			showAnimation(animations.attack_top, now, delay);
+			animationHandler.showAnimation(animations.attack_top, src, sizeSprite);
 		}
 		if (lookAt.down) {
-			showAnimation(animations.attack_down, now, delay);
+			animationHandler.showAnimation(animations.attack_down, src, sizeSprite);
 		}
 		if (lookAt.left) {
 			flip = SDL_FLIP_HORIZONTAL;
-			showAnimation(animations.attack_horizontal, now, delay);
+			animationHandler.showAnimation(animations.attack_horizontal, src, sizeSprite);
 		}
 		if (lookAt.right) {
 			flip = SDL_FLIP_NONE;
-			showAnimation(animations.attack_horizontal, now, delay);
+			animationHandler.showAnimation(animations.attack_horizontal, src, sizeSprite);
 		}
 
 	}
@@ -81,10 +72,10 @@ void Player::update() {
 		}
 
 		if (isWalk) {
-			showAnimation(animations.walk, now, delay);
+			animationHandler.showAnimation(animations.walk, src, sizeSprite);
 		}
 		else {
-			showAnimation(animations.idle, now, delay);
+			animationHandler.showAnimation(animations.idle, src, sizeSprite);
 		}
 	}
 
@@ -100,7 +91,7 @@ void Player::handleEvents(SDL_Event* event) {
 		{
 		case SDL_BUTTON_LEFT:
 			isAttack = true;
-			currentIndex = 0;
+			animationHandler.setCurrentIndex(0);
 			break;
 		default:
 			break;
