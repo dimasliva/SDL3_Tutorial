@@ -7,6 +7,7 @@ public:
 	~Resource();
 	void update();
 	void draw();
+	SDL_FRect getDest() { return dest; };
 
 private:
 	SDL_Texture* texture;
