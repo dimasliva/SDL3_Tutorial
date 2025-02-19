@@ -37,12 +37,30 @@ SDL_AppResult Game::SDL_AppIterate()
 	SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
 	SDL_RenderClear(renderer);
 
-	gold->update();
-	gold->draw();
+	if (gold) {
+		gold->update();
+		gold->draw();
+	}
+
 
 	player->update();
 	player->draw();
 
+	if (gold) {
+		SDL_FRect playerDest = player->getDest();
+		SDL_FRect goldDest = gold->getDest();
+		SDL_FRect result;
+
+		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+		if (SDL_GetRectIntersectionFloat(&playerDest, &goldDest, &result)) {
+			if (result.w >= 125 && result.h >= 115) {
+				delete gold;
+			}
+
+		}
+	}
+
+	
 
 
 	SDL_RenderPresent(renderer);

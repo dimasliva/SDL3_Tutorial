@@ -26,6 +26,7 @@ public:
 	void handleEvents(SDL_Event* event);
 	void update();
 	void draw();
+	SDL_FRect getDest() { return dest; };
 
 private:
 	Animation animationHandler;
