@@ -51,11 +51,11 @@ SDL_AppResult Game::SDL_AppIterate()
 	if (gold) {
 		SDL_FRect playerDest = player->getDest();
 		SDL_FRect goldDest = gold->getDest();
+		SDL_FRect goldHoverSize = gold->getHoverTextureSize();
 		SDL_FRect result;
 
-		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 		if (SDL_GetRectIntersectionFloat(&playerDest, &goldDest, &result)) {
-			if (result.w >= 128 && result.h >= 125) {
+			if (result.w >= goldHoverSize.w && result.h >= goldHoverSize.h) {
 				player->addMoney(gold->getMoney());
 				delete gold;
 			}

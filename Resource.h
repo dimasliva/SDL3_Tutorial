@@ -8,12 +8,14 @@ public:
 	void update();
 	void draw();
 	int getMoney() { return money; };
+	SDL_FRect getHoverTextureSize() { return hoverTextureSize; };
 	SDL_FRect getDest() { return dest; };
 
 private:
 	int money = 50;
 	SDL_Texture* texture;
 	SDL_FRect dest;
+	SDL_FRect hoverTextureSize = {0, 0, 128, 125};
 	SDL_Renderer* renderer;
 };
 

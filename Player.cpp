@@ -34,80 +34,16 @@ void Player::addMoney(int addedMoney)
 void Player::update() {
 	const bool* keys = SDL_GetKeyboardState(NULL);
 	isWalk = false;
+	defineLook(keys);
 
-	if (keys[SDL_SCANCODE_W]) {
-		lookAt.top = true;
-		lookAt.down = false;
-		lookAt.left = false;
-		lookAt.right = false;
-	}
-	if (keys[SDL_SCANCODE_S]) {
-		lookAt.down = true;
-		lookAt.top = false;
-		lookAt.left = false;
-		lookAt.right = false;
-	}
-	if (keys[SDL_SCANCODE_A]) {
-		lookAt.left = true;
-		lookAt.top = false;
-		lookAt.down = false;
-		lookAt.right = false;
-	}
-	if (keys[SDL_SCANCODE_D]) {
-		lookAt.right = true;
-		lookAt.top = false;
-		lookAt.down = false;
-		lookAt.left = false;
-	}
 	if (isAttack) {
-		if (lookAt.top) {
-			animationHandler.showAnimation(animations.attack_top, src, sizeSprite);
-		}
-		if (lookAt.down) {
-			animationHandler.showAnimation(animations.attack_down, src, sizeSprite);
-		}
-		if (lookAt.left) {
-			flip = SDL_FLIP_HORIZONTAL;
-			animationHandler.showAnimation(animations.attack_horizontal, src, sizeSprite);
-		}
-		if (lookAt.right) {
-			flip = SDL_FLIP_NONE;
-			animationHandler.showAnimation(animations.attack_horizontal, src, sizeSprite);
-		}
-
+		attackHandler();
 	}
 	else {
-		if (keys[SDL_SCANCODE_W]) {
-			dest.y -= speed;
-			isWalk = true;
-		}
-		if (keys[SDL_SCANCODE_S]) {
-			dest.y += speed;
-			isWalk = true;
-		}
-		if (keys[SDL_SCANCODE_A]) {
-			dest.x -= speed;
-			flip = SDL_FLIP_HORIZONTAL;
-			isWalk = true;
-		}
-		if (keys[SDL_SCANCODE_D]) {
-			dest.x += speed;
-			isWalk = true;
-			flip = SDL_FLIP_NONE;
-		}
-
-		if (isWalk) {
-			animationHandler.showAnimation(animations.walk, src, sizeSprite);
-		}
-		else {
-			animationHandler.showAnimation(animations.idle, src, sizeSprite);
-		}
+		moveHandler(keys);
 	}
 
-
 	playerHUD->update();
-
-
 }
 void Player::handleEvents(SDL_Event* event) {
 	switch (event->type)
@@ -148,3 +84,77 @@ void Player::initAnimations() {
 	animations.attack_top = { 6, 100, 6 };
 }
 
+void Player::defineLook(const bool* keys)
+{
+	if (keys[SDL_SCANCODE_W]) {
+		lookAt.top = true;
+		lookAt.down = false;
+		lookAt.left = false;
+		lookAt.right = false;
+	}
+	if (keys[SDL_SCANCODE_S]) {
+		lookAt.down = true;
+		lookAt.top = false;
+		lookAt.left = false;
+		lookAt.right = false;
+	}
+	if (keys[SDL_SCANCODE_A]) {
+		lookAt.left = true;
+		lookAt.top = false;
+		lookAt.down = false;
+		lookAt.right = false;
+	}
+	if (keys[SDL_SCANCODE_D]) {
+		lookAt.right = true;
+		lookAt.top = false;
+		lookAt.down = false;
+		lookAt.left = false;
+	}
+}
+
+void Player::attackHandler()
+{
+	if (lookAt.top) {
+		animationHandler.showAnimation(animations.attack_top, src, sizeSprite);
+	}
+	if (lookAt.down) {
+		animationHandler.showAnimation(animations.attack_down, src, sizeSprite);
+	}
+	if (lookAt.left) {
+		flip = SDL_FLIP_HORIZONTAL;
+		animationHandler.showAnimation(animations.attack_horizontal, src, sizeSprite);
+	}
+	if (lookAt.right) {
+		flip = SDL_FLIP_NONE;
+		animationHandler.showAnimation(animations.attack_horizontal, src, sizeSprite);
+	}
+}
+
+void Player::moveHandler(const bool* keys)
+{
+	if (keys[SDL_SCANCODE_W]) {
+		dest.y -= speed;
+		isWalk = true;
+	}
+	if (keys[SDL_SCANCODE_S]) {
+		dest.y += speed;
+		isWalk = true;
+	}
+	if (keys[SDL_SCANCODE_A]) {
+		dest.x -= speed;
+		flip = SDL_FLIP_HORIZONTAL;
+		isWalk = true;
+	}
+	if (keys[SDL_SCANCODE_D]) {
+		dest.x += speed;
+		isWalk = true;
+		flip = SDL_FLIP_NONE;
+	}
+
+	if (isWalk) {
+		animationHandler.showAnimation(animations.walk, src, sizeSprite);
+	}
+	else {
+		animationHandler.showAnimation(animations.idle, src, sizeSprite);
+	}
+}

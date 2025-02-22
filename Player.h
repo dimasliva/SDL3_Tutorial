@@ -27,6 +27,9 @@ public:
 	void addMoney(int addedMoney);
 
 private:
+	void defineLook(const bool* keys);
+	void attackHandler();
+	void moveHandler(const bool* keys);
 	int money;
 	Animation animationHandler;
 	void initAnimations();
