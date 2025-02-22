@@ -1,9 +1,34 @@
 #include "Player.h"
 #include <SDL3_image/SDL_image.h>
 
+Player::Player(SDL_Renderer* renderer, std::string texturePath, TTF_Font* font) :
+	renderer(renderer), font(font)
+{
+	initAnimations();
+	lookAt.right = true;
+	sizeSprite = 192;
+	texture = IMG_LoadTexture(renderer, texturePath.c_str());
+	dest = { 0, 0, sizeSprite, sizeSprite };
+	src = { 0, 0, sizeSprite, sizeSprite };
+	speed = 4;
+	playerHUD = new PlayerHUD(renderer, font);
+}
+
+Player::~Player()
+{
+	SDL_DestroyTexture(texture);
+}
+
 
 void Player::draw() {
 	SDL_RenderTextureRotated(renderer, texture, &src, &dest, 0, NULL, flip);
+	playerHUD->draw();
+}
+
+void Player::addMoney(int addedMoney)
+{
+	money += addedMoney;
+	playerHUD->setMoney(money);
 }
 
 void Player::update() {
@@ -80,6 +105,7 @@ void Player::update() {
 	}
 
 
+	playerHUD->update();
 
 
 }
@@ -120,21 +146,5 @@ void Player::initAnimations() {
 	animations.attack_horizontal = { 6, 100, 2 };
 	animations.attack_down = {6, 100, 4};
 	animations.attack_top = { 6, 100, 6 };
-}
-
-Player::Player(SDL_Renderer* renderer, std::string texturePath) : renderer(renderer)
-{
-	initAnimations();
-	lookAt.right = true;
-	sizeSprite = 192;
-	texture = IMG_LoadTexture(renderer, texturePath.c_str());
-	dest = { 0, 0, sizeSprite, sizeSprite };
-	src = { 0, 0, sizeSprite, sizeSprite };
-	speed = 4;
-}
-
-Player::~Player()
-{
-	SDL_DestroyTexture(texture);
 }
 

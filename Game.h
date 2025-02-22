@@ -1,5 +1,6 @@
 #pragma once
 #include<SDL3/SDL.h>
+#include<SDL3_ttf/SDL_ttf.h>
 #include"Player.h"
 #include"Resource.h"
 
@@ -18,5 +19,6 @@ private:
 	SDL_Renderer* renderer;
 	Player* player;
 	Resource* gold;
+	TTF_Font* font;
 };
 

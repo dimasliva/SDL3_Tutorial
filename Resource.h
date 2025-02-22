@@ -7,9 +7,11 @@ public:
 	~Resource();
 	void update();
 	void draw();
+	int getMoney() { return money; };
 	SDL_FRect getDest() { return dest; };
 
 private:
+	int money = 50;
 	SDL_Texture* texture;
 	SDL_FRect dest;
 	SDL_Renderer* renderer;

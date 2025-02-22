@@ -11,8 +11,10 @@ Game::~Game()
 SDL_AppResult Game::SDL_AppInit()
 {
 	SDL_Init(SDL_INIT_VIDEO);
+	TTF_Init();
 	SDL_CreateWindowAndRenderer("SDL3 Game", 800, 640, 0, &window, &renderer);
-	player = new Player(renderer, "assets/Tiny Swords (Update 010)/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png");
+	font = TTF_OpenFont("assets/fonts/Tiny5.ttf", 48);
+	player = new Player(renderer, "assets/Tiny Swords (Update 010)/Factions/Knights/Troops/Warrior/Blue/Warrior_Blue.png", font);
 	gold = new Resource(renderer, { 300, 300 }, "assets/Tiny Swords (Update 010)/Resources/Resources/G_Idle.png");
 	return SDL_AppResult();
 }
@@ -53,7 +55,8 @@ SDL_AppResult Game::SDL_AppIterate()
 
 		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 		if (SDL_GetRectIntersectionFloat(&playerDest, &goldDest, &result)) {
-			if (result.w >= 125 && result.h >= 115) {
+			if (result.w >= 128 && result.h >= 125) {
+				player->addMoney(gold->getMoney());
 				delete gold;
 			}
 
