@@ -6,14 +6,7 @@
 #include"structs.h"
 #pragma once
 
-typedef struct
-{
-	animationProperties idle;
-	animationProperties walk;
-	animationProperties attack_horizontal;
-	animationProperties attack_top;
-	animationProperties attack_down;
-} animationData;
+
 
 class Player
 {
@@ -38,7 +31,7 @@ private:
 	SDL_FRect dest;
 	SDL_Texture* texture;
 	int speed;
-	animationData animations;
+	PlayerAnimationData animations;
 	float sizeSprite;
 	bool isWalk;
 	bool isAttack;
