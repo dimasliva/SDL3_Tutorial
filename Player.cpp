@@ -11,7 +11,9 @@ Player::Player(SDL_Renderer* renderer, std::string texturePath, TTF_Font* font) 
 	dest = { 0, 0, sizeSprite, sizeSprite };
 	src = { 0, 0, sizeSprite, sizeSprite };
 	speed = 4;
-	playerHUD = new PlayerHUD(renderer, font);
+	currentHelth = 50;
+	totalHelth = 100;
+	playerHUD = new PlayerHUD(renderer, font, currentHelth, totalHelth);
 }
 
 Player::~Player()

@@ -36,7 +36,7 @@ SDL_AppResult Game::SDL_AppEvent(SDL_Event* event)
 
 SDL_AppResult Game::SDL_AppIterate()
 {
-	SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
+	SDL_SetRenderDrawColor(renderer, 30, 150, 30, 255);
 	SDL_RenderClear(renderer);
 
 	if (gold) {

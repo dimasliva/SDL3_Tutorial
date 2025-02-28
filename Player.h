@@ -6,8 +6,6 @@
 #include"structs.h"
 #pragma once
 
-
-
 class Player
 {
 public:
@@ -31,6 +29,8 @@ private:
 	SDL_FRect dest;
 	SDL_Texture* texture;
 	int speed;
+	int currentHelth;
+	int totalHelth;
 	PlayerAnimationData animations;
 	float sizeSprite;
 	bool isWalk;
